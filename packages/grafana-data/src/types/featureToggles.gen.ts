@@ -140,4 +140,5 @@ export interface FeatureToggles {
   enableNativeHTTPHistogram?: boolean;
   transformationsVariableSupport?: boolean;
   kubernetesPlaylists?: boolean;
+  panelTitleSearchInV1?: boolean;
 }
