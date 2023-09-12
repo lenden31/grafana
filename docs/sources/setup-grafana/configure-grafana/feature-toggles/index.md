@@ -147,7 +147,6 @@ Experimental features might be changed or removed without prior notice.
 | `enableNativeHTTPHistogram`                 | Enables native HTTP Histograms                                                                               |
 | `transformationsVariableSupport`            | Allows using variables in transformations                                                                    |
 | `kubernetesPlaylists`                       | Use the kubernetes API in the frontend for playlists                                                         |
-| `panelTitleSearchInV1`                      | Enable searching for dashboards using panel title in search v1                                               |
 
 ## Development feature toggles
 
@@ -159,3 +158,5 @@ The following toggles require explicitly setting Grafana's [app mode]({{< relref
 | `externalServiceAuth`     | Starts an OAuth2 authentication provider for external services                               |
 | `idForwarding`            | Generate signed id token for identity that can be forwarded to plugins and external services |
 | `externalServiceAccounts` | Automatic service account and token setup for plugins                                        |
+| `panelTitleSearchInV1`    | Enable searching for dashboards using panel title in search v1                               |
+
