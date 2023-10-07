@@ -28,7 +28,7 @@ type PyroscopeAppSettings = {
 /** A subset of the datasource settings that are relevant for this integration */
 type PyroscopeDatasourceSettings = {
   url: string;
-  basicAuthUser: string | number; // This might be configured as a number, so we will want to ensure compare for string-equivalence
+  basicAuthUser: string;
 };
 
 export function PyroscopeAppIntegration(props: Props) {
@@ -90,7 +90,7 @@ export function isPyroscopeDatasourceCompatibleWithPlugin(
 
   return (
     datasource.url === appPlugin.jsonData.backendUrl &&
-    String(datasource.basicAuthUser) === String(appPlugin.jsonData.basicAuthUser)
+    datasource.basicAuthUser === appPlugin.jsonData.basicAuthUser
   );
 }
 
