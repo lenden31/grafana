@@ -58,7 +58,7 @@ export function QueryEditor(props: Props) {
           labels={labels}
           getLabelValues={getLabelValues}
         />
-        <PyroscopeAppIntegration {...props}/>
+        <PyroscopeAppIntegration {...props} />
       </EditorRow>
       <EditorRow>
         <QueryOptions query={query} onQueryChange={props.onChange} app={props.app} labels={labels} />
