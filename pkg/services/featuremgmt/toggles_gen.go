@@ -486,4 +486,8 @@ const (
 	// FlagKubernetesPlaylists
 	// Use the kubernetes API in the frontend for playlists
 	FlagKubernetesPlaylists = "kubernetesPlaylists"
+
+	// FlagAlertingPreviewUpgrade
+	// Show Unified Alerting preview and upgrade page in legacy alerting
+	FlagAlertingPreviewUpgrade = "alertingPreviewUpgrade"
 )
