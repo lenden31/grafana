@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/grafana/grafana/pkg/infra/db"
 	"github.com/grafana/grafana/pkg/infra/kvstore"
@@ -393,12 +394,36 @@ func (ms *migrationStore) DeleteFolders(ctx context.Context, orgID int64, uids .
 
 	usr := accesscontrol.BackgroundUser("ngalert_migration_revert", orgID, org.RoleAdmin, revertPermissions)
 	for _, folderUID := range uids {
-		cmd := folder.DeleteFolderCommand{
-			UID:          folderUID,
+		// Check if folder is empty. If not, we should not delete it.
+		uid := folderUID
+		countCmd := folder.GetDescendantCountsQuery{
+			UID:          &uid,
 			OrgID:        orgID,
 			SignedInUser: usr.(*user.SignedInUser),
 		}
-		err := ms.folderService.Delete(ctx, &cmd) // Also handles permissions and other related entities.
+		count, err := ms.folderService.GetDescendantCounts(ctx, &countCmd)
+		if err != nil {
+			return err
+		}
+		var descendantCounts []string
+		for kind, cnt := range count {
+			if cnt > 0 {
+				descendantCounts = append(descendantCounts, fmt.Sprintf("%d %s", cnt, kind))
+				if err != nil {
+					return err
+				}
+			}
+		}
+		if len(descendantCounts) > 0 {
+			return fmt.Errorf("contains descendants: %s", strings.Join(descendantCounts, ", "))
+		}
+
+		cmd := folder.DeleteFolderCommand{
+			UID:          uid,
+			OrgID:        orgID,
+			SignedInUser: usr.(*user.SignedInUser),
+		}
+		err = ms.folderService.Delete(ctx, &cmd) // Also handles permissions and other related entities.
 		if err != nil {
 			return err
 		}
